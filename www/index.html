@@ -42,7 +42,7 @@
                 <link href="/assets/css/PublicRecipesCSS.css" rel="stylesheet"/>
 
                 <div id="public-recipes-app" class="public-recipes"
-                    :rest-url="setRestUrl(&quot;/API/AnonRestAPI.cshtml?ctl=PublicRecipesController\u0026id=0&quot;)"
+                    :rest-url="setRestUrl(&quot;/data/recipe-list.json&quot;)"
                     v-cloak>
                     <featured-recipes :vm="featuredvm"></featured-recipes>
                     <div v-if="loaded">
