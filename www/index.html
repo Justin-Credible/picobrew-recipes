@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head class="noprint">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Recipe Library </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description">
+    <meta name="keywords" content=",automatic,automated,beer brewing,machine,craft beer,home brewing,beer">
+                <meta name="robots" content="noimageindex" />
+            <link rel="canonical" href="https://picobrew.com/publicrecipes/publicrecipes" />
+    <link rel="icon" href="/favicon.ico">
+    
+
+    <!--Styles-->
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300i,400,500,700,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,400i,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed:600,700,900&display=swap" rel="stylesheet">
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="/Bundles/Styles/ThirdPartyCSS?v=oe8f5Zc4DhPhR-5zMjqlOB3lUU7L3o0SDRRAjz9Zdow1" rel="stylesheet"/>
+
+    <link href="/Bundles/Styles/ComponentCSS?v=3zRONw7RpZ5vXQM9Pg1p2p3g0dRPMUF7WFPiYhdCHYE1" rel="stylesheet"/>
+
+    
+
+
+    <!--Scripts-->
+    <!--
+    APP INSIGHT FOR LIVE ONLY
+    -->
+        <script type="text/javascript">
+            var sdkInstance = "appInsightsSDK"; window[sdkInstance] = "appInsights"; var aiName = window[sdkInstance], aisdk = window[aiName] || function (e) {
+                function n(e) { t[e] = function () { var n = arguments; t.queue.push(function () { t[e].apply(t, n) }) } } var t = { config: e }; t.initialize = !0; var i = document, a = window; setTimeout(function () { var n = i.createElement("script"); n.src = e.url || "https://az416426.vo.msecnd.net/next/ai.2.min.js", i.getElementsByTagName("script")[0].parentNode.appendChild(n) }); try { t.cookie = i.cookie } catch (e) { } t.queue = [], t.version = 2; for (var r = ["Event", "PageView", "Exception", "Trace", "DependencyData", "Metric", "PageViewPerformance"]; r.length;)n("track" + r.pop()); n("startTrackPage"), n("stopTrackPage"); var s = "Track" + r[0]; if (n("start" + s), n("stop" + s), n("setAuthenticatedUserContext"), n("clearAuthenticatedUserContext"), n("flush"), !(!0 === e.disableExceptionTracking || e.extensionConfig && e.extensionConfig.ApplicationInsightsAnalytics && !0 === e.extensionConfig.ApplicationInsightsAnalytics.disableExceptionTracking)) { n("_" + (r = "onerror")); var o = a[r]; a[r] = function (e, n, i, a, s) { var c = o && o(e, n, i, a, s); return !0 !== c && t["_" + r]({ message: e, url: n, lineNumber: i, columnNumber: a, error: s }), c }, e.autoExceptionInstrumented = !0 } return t
+            }({
+                instrumentationKey: "7a703aab-fc8a-44e0-845e-956bc68b4482"
+            });
+
+            window[aiName] = aisdk, aisdk.queue && 0 === aisdk.queue.length && aisdk.trackPageView({});
+        </script>
+    
+    <script src="/Bundles/Scripts/ThirdPartyJS?v=AI1T5Vfwy4RZwkNiECr-IrHDUUEJ5Nsmk6ui2cqsUiE1"></script>
+
+    <script src="/Scripts/SimplerCart.js?v=1.0.2.13726"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+        <script>
+            window.addEventListener("load", function () {
+                window.cookieconsent.initialise({
+                    "palette": {
+                        "popup": {
+                            "background": "#222222"
+                        },
+                        "button": {
+                            "background": "#ffffff",
+                            "text": "#222222"
+                        }
+                    },
+                    "theme": "edgeless",
+                    "content": {
+                        "message": "PicoBrew uses cookies to make this site simpler.",
+                        "link": "Read More"
+                    }
+                })
+            });
+        </script>
+            <!-- Global site tag (gtag.js) - Google Ads: 979449362 -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-979449362"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'AW-979449362');
+        </script>
+        <script id="mcjs">!function (c, h, i, m, p) { m = c.createElement(h), p = c.getElementsByTagName(h)[0], m.async = 1, m.src = i, p.parentNode.insertBefore(m, p) }(document, "script", "https://chimpstatic.com/mcjs-connected/js/users/007d0e755e5300f5291fa2a6e/342d19de104010114e07bc97b.js");</script>
+            <script>
+            var promojson = JSON.parse("{\"hide\":\"multibrew\",\"items\":[{\"text\":\"AN IMPORTANT UPDATE 10/5/2020\",\"url\":\"https://www.pbfundingllc.com/news\",\"id\":\"strip 637125\"}]}")
+        </script>
+    </head>
+
+<body>
+    <div id="main-internal-wrapper">
+        <header id="header" class="noprint">
+            <nav id="pico-nav-app" navitems="[]" passedusername="">
+                <pico-nav :vm="vm" :promovm="promovm" :promoactive="promoactive" v-on:nav-link-event="handleNavLinkEvent"></pico-nav>
+                <div style="width:100%;" :style="padStyle"></div>
+            </nav>
+        </header>
+        <div id="main-internal" role="main">
+            <div id="page-text">
+                
+
+<script>
+    const featuredrecipes = JSON.parse('{"Title":"Featured Recipes","FeaturedRecipes":[{"Title":"Pico Pale Ale","Subtitle":"American Pale Ale","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_12.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=1353d607268546a0bea74227f1ded356","Stats":[{"Title":"ABV","Stat":"5.4%"},{"Title":"IBU","Stat":"40"}]},{"Title":"Mantis TobogganFest","Subtitle":"Oktoberfest/Marzen","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_14.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=b8173dba8c034595847f768ebf140e1c","Stats":[{"Title":"ABV","Stat":"5.8%"},{"Title":"IBU","Stat":"28"}]},{"Title":"Edel Hell v1","Subtitle":"Munich Helles","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_4.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=19739320917441f786679b0b32a4939d","Stats":[{"Title":"ABV","Stat":"4.6%"},{"Title":"IBU","Stat":"21"}]},{"Title":"Prost","Subtitle":"Oktoberfest/Marzen","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_12.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=7ba8f384b5d54a798cc4f4b85a18e317","Stats":[{"Title":"ABV","Stat":"5.5%"},{"Title":"IBU","Stat":"29"}]},{"Title":"PB Bites","Subtitle":"Imperial IPA","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_8.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=b9740678aba14eaaa536234a2cea8527","Stats":[{"Title":"ABV","Stat":"7.9%"},{"Title":"IBU","Stat":"59"}]},{"Title":"Grapefruit IPA","Subtitle":"American IPA","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_7.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=0dc4f5418fad45fe915e6a8fcd7cb00c","Stats":[{"Title":"ABV","Stat":"8.1%"},{"Title":"IBU","Stat":"51"}]},{"Title":"B-52 Blonde","Subtitle":"Blonde Ale","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_5.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=3a0822cd15374e8a8139b5593f42c0a4","Stats":[{"Title":"ABV","Stat":"5.7%"},{"Title":"IBU","Stat":"23"}]},{"Title":"Citra Saison","Subtitle":"Saison","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_4.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=17b5e1c3006e4e67bcab74f655d334aa","Stats":[{"Title":"ABV","Stat":"6.3%"},{"Title":"IBU","Stat":"39"}]},{"Title":"Atomic Amber","Subtitle":"American Amber Ale","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_24.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=1704720c78ac436b9ca46bbc8a2dfbe3","Stats":[{"Title":"ABV","Stat":"7.2%"},{"Title":"IBU","Stat":"39"}]},{"Title":"Party Porter","Subtitle":"Robust Porter","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_28.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=4d584296861b49169883af5c7c3cc6fa","Stats":[{"Title":"ABV","Stat":"6.9%"},{"Title":"IBU","Stat":"33"}]},{"Title":"Pepper Anderson","Subtitle":"American IPA","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_9.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=b93557d881104288916ca6f5192f3059","Stats":[{"Title":"ABV","Stat":"6.1%"},{"Title":"IBU","Stat":"74"}]},{"Title":"Hoppy French Sai v1","Subtitle":"Saison","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_4.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=da8f027c7a7f48829db88b2b6431d739","Stats":[{"Title":"ABV","Stat":"4.2%"},{"Title":"IBU","Stat":"53"}]},{"Title":"BangBang Hefewei v1","Subtitle":"Weizen/Weissbier","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_3.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=19a7b067dbf74b059be82f41a4a91af5","Stats":[{"Title":"ABV","Stat":"6.9%"},{"Title":"IBU","Stat":"18"}]},{"Title":"221B Galaxy IPA","Subtitle":"American IPA","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_10.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=38bc5db51d7444ccbdce126ac18b1890","Stats":[{"Title":"ABV","Stat":"6.2%"},{"Title":"IBU","Stat":"72"}]},{"Title":"CITRA SMASH","Subtitle":"American IPA","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_5.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=25655d26224a47e5b4254667235e7c94","Stats":[{"Title":"ABV","Stat":"7.4%"},{"Title":"IBU","Stat":"75"}]},{"Title":"Mow the Damn Lawn","Subtitle":"Lite American Lager","Img":"https://picobrewcontent.blob.core.windows.net/images/srm/200px/srm_3.png","Link":"/PublicRecipes/PublicRecipe.cshtml?id=cb4320ef48424f71a65bb720b139c0c6","Stats":[{"Title":"ABV","Stat":"4.1%"},{"Title":"IBU","Stat":"11"}]}]}')
+</script>
+<link href="/Bundles/Styles/PublicRecipesCSS?v=zzmGi9Ywz2SoygVbzEwLdngzAMfkldboN0kCwL-4wK81" rel="stylesheet"/>
+
+<div id="public-recipes-app" class="public-recipes"
+     :rest-url="setRestUrl(&quot;/API/AnonRestAPI.cshtml?ctl=PublicRecipesController\u0026id=0&quot;)"
+     v-cloak>
+    <featured-recipes :vm="featuredvm"></featured-recipes>
+    <div v-if="loaded">
+        <h1 class="featured-recipes--title -library">Recipe Library</h1>
+        <div class="numRecipes">
+            <span style="display: inline-block"><span v-show="getFilteredRecipesLength != getPublicRecipesLength">{{getFilteredRecipesLength}} out of</span> {{getPublicRecipesLength}} Recipes</span>
+        </div>
+        <div class="recipe-org">
+            <div class="search-input--contain">
+                <input class="search-input" type="text" placeholder="search" v-model="searchInput" v-on:keyup="resetPageIndex" aria-label="Search Recipes">
+            </div>
+            <rounded-image-button :vm="filtervm.button" v-on:button-event="showFilter(true)"></rounded-image-button>
+            <rounded-image-button :vm="sortvm.button" v-on:button-event="showSort(true)"></rounded-image-button>
+            <filter-container :vm="filtervm"
+                              v-on:mouse-leave-event="showFilter(false)"
+                              v-on:filter-close-event="showFilter(false)"
+                              v-on:filter-reset-event="handleFilterReset">
+            </filter-container>
+            <sort-container :vm="sortvm" v-on:mouse-leave-event="showSort(false)" v-on:sort-close-event="showSort(false)" v-on:sort-item-event="sort"></sort-container>
+        </div>
+        <template v-for="recipe in createCardList(getFilteredRecipesSlice)" :key="recipe.GUID">
+            <recipe-row :vm="recipe"></recipe-row>
+        </template>
+        <table class="pagingFooter" v-show="getFilteredRecipesLength > perPage">
+            <tr>
+                <td><button id="FooterPagePrev" v-on:click="pageIndex = pageIndex - perPage" class="FooterButton FooterPrev" v-show="pageIndex > 0"> << Previous</button></td>
+                <td>
+                    <button id="FooterPage1" v-on:click="pageIndex = pageIndex - (perPage * 2)" class="FooterButton FooterPage" v-show="pageIndex - (perPage * 2) > 0">{{(pageIndex - perPage) / perPage}}</button>
+                    <button id="FooterPage2" v-on:click="pageIndex = pageIndex - perPage" class="FooterButton FooterPage" v-show="pageIndex - perPage >= 0">{{pageIndex / perPage}}</button>
+                    <button id="FooterPage3" class="FooterButton FooterCurrent">{{(pageIndex + perPage) / perPage}}</button>
+                    <button id="FooterPage4" v-on:click="pageIndex = pageIndex + perPage" class="FooterButton FooterPage" v-show="pageIndex + perPage <= getFilteredRecipesLength">{{Math.floor((pageIndex + (perPage * 2)) / perPage)}}</button>
+                    <button id="FooterPage5" v-on:click="pageIndex = pageIndex + (perPage * 2)" class="FooterButton FooterPage" v-show="pageIndex + (perPage * 2) <= getFilteredRecipesLength">{{Math.floor((pageIndex + (perPage * 3)) / perPage)}}</button>
+                </td>
+                <td><button id="FooterPageNext" v-on:click="pageIndex = pageIndex + perPage;" class="FooterButton FooterNext" v-show="pageIndex + perPage < getFilteredRecipesLength">Next >></button></td>
+            </tr>
+        </table>
+    </div>
+    <template id="session-loading-animation" v-else>
+        <div class="circle-container">
+            <span class="circle-text">LOADING RECIPES... </span>
+            <span class="circle-loading"></span>
+        </div>
+    </template>
+</div>
+<script src="/Bundles/Scripts/PublicRecipesJS?v=1SwlxyXkIThSrYIB6CtTYA98aP_xsU0SC9yLuCKpYRE1"></script>
+
+
+            </div>
+        </div>    <!-- main-->
+    </div>
+    <div id="pico-footer-app" class="noprint">
+        <pico-footer :vm="vm" v-on:footer-click-event="handleFooterClick"></pico-footer>
+    </div>
+    <div class="modal LoginModal fade F-container F-mx-auto" id="LoginModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="LoginModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content -modalbox">
+            <form action="/account/loginAjax.cshtml?returnURL=https%3a%2f%2fwww.picobrew.com%2fPublicRecipes%2fPublicRecipes" id="login-form" class="login-form" method="post">
+                <button type="button" class="-CloseButton F-z-20 F-text-2xl F-font-semibold" data-dismiss="modal">&times;</button>
+                <span class="modal-heading md:F-text-2xl F-text-xl F-relative F-block F-m-0 F-font-semibold F-text-center F-text-black" style="padding-top:4rem;padding-bottom:1rem">Sign into PicoBrew</span>
+                <div class="modal-body F-px-4" id="login-msgBod">
+                    <input id="username" class="form-control" name="username" placeholder="Username" required tabindex="1">
+                    <div class="forgotText"><a href="/account/forgotUsername.cshtml" id="forgotUsernameText" title="click to receive email with username">Forgot Your UserName?</a></div>
+                    <input id="password" class="form-control" type="password" name="Password" placeholder="Password" required tabindex="2">
+                    <div class="forgotText"><a href="/account/resetpassword.cshtml" id="forgotPasswordText" title="click to reset your password">Forgot Your Password?</a></div>
+                    <input class="ng-pristine ng-valid ng-empty ng-touched" type="checkbox" name="rememberMe" value="true"><span id="rememberMeText" class="F-text-pico-blue-dark">Stay signed in</span>
+                </div>
+                <input class="btn btn-info login-button Button Button-fixedColor-blue F-no-underline F-uppercase F-text-sm F-font-semibold F-rounded F-tracking-wide F-text-center F-inline-block" type="submit" value="Sign in" tabindex="3">
+                <div class="F-text-xs F-font-semibold F-text-center F-text-black" style="cursor:pointer;padding-bottom:1rem" onclick="showCreateAccountModal()" type="button" value="Create Account" tabindex="3">
+                    Don't have an Account? <span class="F-text-pico-blue-dark">SignUp</span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <link rel="stylesheet" type="text/css" href="/Flight/views/components/Modals/CreateAccountModal/CreateAccountModal.css" />
+<div class="modal LoginModal fade F-container F-mx-auto" id="createAccountModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="createAccountModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content -modalbox">
+            <div class="" id="msgHead">
+                <button type="button" class="-CloseButton F-z-30 F-text-2xl F-font-semibold" data-dismiss="modal" onclick="CreateAccount_clearModal()">&times;</button>
+                <span id="modal-heading" class="F-text-2xl F-block F-m-0 F-font-semibold F-text-center F-text-black" style="padding-top:2.5rem;padding-bottom:0.75rem">Register</span>
+            </div>
+            <div class="modal-body" id="acct-msgBod">
+                <div class="createAccount_inputContainer">
+                    <div id="CreateAccount_Username_error" class="modal_error"></div>
+                    <input type="text" class="form-control" id="CreateAccount_Username" placeholder="Username" required onchange="CreateAccount_validateUserName()">
+                    <div id="CreateAccount_Email_error" class="modal_error"></div>
+                    <input type="email" class="form-control" id="CreateAccount_Email" placeholder="Email" required onchange="CreateAccount_validateEmail()">
+                    <div id="CreateAccount_Password_error" class="modal_error"></div>
+                    <input type="password" class="form-control pristine" id="CreateAccount_Password" placeholder="Password" required onchange="makeDirty(this); CreateAccount_validatePassword()">
+                    <input type="password" class="form-control pristine" id="CreateAccount_ConfirmPassword" placeholder="Confirm Password" required onchange="makeDirty(this); CreateAccount_validatePassword()">
+                    <input type="checkbox" id="CreateAccount_OKContactNews F-py-4" checked>
+                    <label for="CreateAccount_OKContactNews" class="modal_contactLabel F-text-xs confirm-news F-text-black">OK to contact about PicoBrew news</label>
+                </div>
+            </div>
+            <button id="CreateAccount_Create" class="btn btn-info create-button login-button Button Button-fixedColor-blue F-no-underline F-uppercase F-text-sm F-font-semibold F-rounded F-tracking-wide F-text-center F-inline-block" onclick="CreateAccount_createUser()" disabled>Create</button>
+            <button id="CreateAccount_Cancel" class="btn btn-default cancel-button F-text-sm" data-dismiss="modal" onclick="CreateAccount_clearModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+    <div class="modal fade" id="createAccountModal_creating" tabindex="-1" role="dialog" aria-labelledby="createAccountModal_creating" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="msgBod">
+                <span>Creating New Account...</span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="F-container F-mx-auto">
+    <div id="subscriptionModal" class="SignupComplete modal fade -inner" role="dialog" style="display: none">
+        <div class="modal-dialog">
+            <div class="modal-content -modalbox">
+                <div class="modal-header F-bg-white">
+                    <button type="button" class="close" data-dismiss="modal">X</button>
+                    <span id="subscription-modal-tag" class="F-font-semibold F-block F-pt-4 F-pb-2 F-tracking-wide F-text-xs F-uppercase F-text-black" style="margin-top:10px"></span>
+                    <h1 id="subscription-modal-headline" class="-headline md:F-text-3xl F-text-2xl F-pt-2 F-relative F-block F-m-0 F-font-semibold F-px-200 F-text-black"></h1>
+                    <p id="subscription-modal-text" class="-description -signuptext F-text-sm md:F-text-md F-block F-leading-normal F-pt-3 F-mt-3 F-mb-0 F-text-black"></p>
+                    <div class="F-mt-4 md:F-mt-0 F-inline-block F-text-center F-w-full F-mb-2 F-pt-3 md:F-pt-5 F-pb-4">
+                        <button type="button" class="Button F-no-underline F-uppercase F-text-sm F-font-semibold F-rounded F-tracking-wide F-text-center F-inline-block F-text-white F-bg-pico-blue" data-dismiss="modal">DONE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- END: Sticky Footer -->
+        <!--External Scripts-->
+        <script>
+            (function (i, s, o, g, r, a, m)
+            {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function ()
+                {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-55088830-1', 'auto');
+            ga('require', 'ec');
+            ga('send', 'pageview');
+        </script>
+        <noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=iFq1l1aQeSI1cv" style="display:none" height="1" width="1" alt="cloudFront" /></noscript>
+        <script type="text/javascript" defer="defer" src="https://extend.vimeocdn.com/ga/49890488.js"></script>
+        <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-MN8L5H"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <script type="text/javascript" src="/Layout/Subscribe.js"></script>
+        <!-- End Google Tag Manager -->
+        <script>
+            (function (w, d, s, l, i)
+            {
+                w[l] = w[l] || []; w[l].push({
+                    'gtm.start':
+                        new Date().getTime(), event: 'gtm.js'
+                }); var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                        '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-MN8L5H');
+        </script>
+        <!-- End Google Tag Manager -->
+    <script type="text/javascript" src="/Layout/Cart_Login_Account.js"></script>
+    <script>
+        //Simpler Cart initializer
+        var callbackForCartNumber = function(itemCount) {
+            if (itemCount > 0) {
+                $('#cartCount').css('display', 'flex');
+                $('#cartCount').html(itemCount);
+            } else {
+                $('#cartCount').css('display', 'none');
+                $('#cartCount').html('');
+            }
+        }
+
+        simplerCart = cartFactory.getNewCart('Store', callbackForCartNumber, false);
+        simplerPreOrderCart =
+            cartFactory.getNewCart('PreOrder', function() {}, false);
+
+        $(document).ready(function() {
+            simplerCart.numItemsInCart().then(function (num)
+            {
+                callbackForCartNumber(num);
+            });
+
+
+
+            var offset = ((new Date()).getTimezoneOffset() / 60);
+            $.ajax({
+                type: "POST",
+                url: "/api/updatetimezone.cshtml",
+                data: { off: offset }
+            });
+            simplerCart.Empty();
+            simplerPreOrderCart.Empty();
+        });
+    </script>
+    <script src="/Bundles/Scripts/ComponentJS?v=LT-QoH-DT2eAjuxRc4Mb0D2Bl5IgNdqDZF7N4ARvsGE1"></script>
+
+    
+</body>
+</html>
