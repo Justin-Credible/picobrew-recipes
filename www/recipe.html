@@ -35,8 +35,8 @@
         </header>
         <div id="main-internal" role="main">
             <div id="page-text">
-                <link rel="stylesheet" href="/Content/font-awesome.min.css" />
-                <link rel="stylesheet" href="/Styles/RecipeViewShared.css" />
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
+                <link rel="stylesheet" href="/assets/css/recipes/RecipeViewShared.css" />
                 <!-- New APP -->
                 <div v-cloak id="recipe-vm-app" recipeguid="8e739806f1c6491bbccb43d7d2bb6bf8" api="/API/AnonRestAPI.cshtml?ctl=PublicRecipeVMRequestController" usemetric="false" ismobile="false">
                     <!-- Sticky Header -->
@@ -448,8 +448,8 @@
                 </div>
 
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                <script src="/Scripts/Recipes/helpers.js"></script>
-                <script src="/Scripts/Recipes/RecipeVM-App.js"></script>
+                <script src="/assets/js/recipes/helpers.js"></script>
+                <script src="/assets/js/recipes/RecipeVM-App.js"></script>
             </div>
         </div>    <!-- main-->
     </div>
@@ -457,7 +457,7 @@
         <pico-footer :vm="vm" v-on:footer-click-event="handleFooterClick"></pico-footer>
     </div>
 
-    <script src="/Bundles/Scripts/ComponentJS?v=LT-QoH-DT2eAjuxRc4Mb0D2Bl5IgNdqDZF7N4ARvsGE1"></script>
+    <script src="/assets/js/ComponentJS.js"></script>
 
 </body>
 </html>
