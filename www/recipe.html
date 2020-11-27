@@ -4,7 +4,7 @@
 <head class="noprint">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Recipe Details </title>
+    <title>PicoBrew Public Recipe Library</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description">
     <meta name="keywords" content=",automatic,automated,beer brewing,machine,craft beer,home brewing,beer">
@@ -22,15 +22,50 @@
     <link href="/assets/css/ThirdPartyCSS.css" rel="stylesheet"/>
     <link href="/assets/css/ComponentCSS.css" rel="stylesheet"/>
 
+    <!-- Hack so the sticky header doesn't overlay the top content -->
+    <style>
+        .rv--h-c {
+            margin-top: 10rem;
+        }
+    </style>
+
     <script src="/assets/js/ThirdPartyJS.js"></script>
 </head>
 
 <body>
     <div id="main-internal-wrapper">
         <header id="header" class="noprint">
-            <nav id="pico-nav-app" navitems="[]" passedusername="">
+            <!-- Original navigation header (hidden) -->
+            <nav id="pico-nav-app" navitems="[]" passedusername="" style="display: none;">
                 <pico-nav :vm="vm" :promovm="promovm" :promoactive="promoactive" v-on:nav-link-event="handleNavLinkEvent"></pico-nav>
                 <div style="width:100%;" :style="padStyle"></div>
+            </nav>
+            <!-- Hardcoded navigation header -->
+            <nav>
+                <div class="pico-nav--wrap">
+                    <div id="pico-brew-navbar" class="pico-nav">
+                        <div class="pico-nav--contain">
+                            <div class="pico-nav--top-items">
+                                <div class="pico-nav--top-item"><a href="/">PicoBrew Public Recipe Library</a></div>
+                                <div class="pico-nav--top-item"><a href="https://github.com/Justin-Credible/picobrew-recipes/blob/master/README.md">About This Site</a></div>
+                                <div class="pico-nav--top-item"><a href="https://www.picobrew.com/PublicRecipes/PublicRecipes">Original Site</a></div>
+                            </div>
+                            <div class="pico-nav--right">
+                                <div class="pico-nav--icon-wrap relpos -cart"><img src="/assets/images/mainlayout/Nav/Icons/cart_.svg" class="pico-nav--icon"></div>
+                                <div class="pico-nav--top-item -login"><a href="https://github.com/Justin-Credible/picobrew-recipes">Contribute on GitHub</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pico-sub-nav" class="pico-nav--sub">
+                        <div class="pico-nav--close"><img src="/assets/images/mainlayout/Nav/Icons/x_white.svg" class="pico-nav--close-icon"></div>
+                    </div>
+                    <div id="pico-sub-detail-nav" class="pico-nav--detail">
+                        <div class="pico-nav--close -back"><img src="/assets/images/mainlayout/Nav/Icons/back_white.svg" class="pico-nav--close-icon"></div>
+                        <div class="pico-nav--detail-item-wrap"></div>
+                    </div>
+                    <div id="pico-user-nav" class="pico-nav--user"></div>
+                </div>
+                <div style="width: 100%; height: 0px;"></div>
             </nav>
         </header>
         <div id="main-internal" role="main">
@@ -386,7 +421,7 @@
                                             <span v-else>No Ratings</span>
                                         </div>
                                     </div>
-                                    <div class="rv--rating-fc">
+                                    <div class="rv--rating-fc" style="display: none;">
                                         <div class="rv--rating-title">Your Rating</div>
                                         <div>
                                             <div v-if="vm.UserRated">
@@ -431,7 +466,7 @@
                                         <div style="margin-top:2px; margin-bottom:2px;" v-else>
                                             No Comments yet...
                                         </div>
-                                        <div v-if="!vm.UserCommented">
+                                        <div v-if="!vm.UserCommented" style="display: none;">
                                             <textarea style="margin-bottom:5px;" class="form-control rv--review-form" v-on:focus="!false ? showLoginModal() : '' " v-model="comment" placeholder="Your thoughts..."></textarea>
                                             <button class="btn btn-default rv--review-form" v-bind:disabled="!HasComment" v-on:click="!false ? showLoginModal() : addComment()">Add Comment</button>
                                         </div>
@@ -454,8 +489,20 @@
             </div>
         </div>    <!-- main-->
     </div>
-    <div id="pico-footer-app" class="noprint">
+
+    <!-- Original footer (hidden) -->
+    <div id="pico-footer-app" class="noprint" style="display: none;">
         <pico-footer :vm="vm" v-on:footer-click-event="handleFooterClick"></pico-footer>
+    </div>
+
+    <!-- Hardcoded footer -->
+    <div class="pico-footer">
+        <div class="pico-footer--links">
+            <div class="pico-footer--link"><a href="/">PicoBrew Public Recipe Library</a></div>
+            <div class="pico-footer--link"><a href="https://github.com/Justin-Credible/picobrew-recipes/blob/master/README.md">About This Site</a></div>
+            <div class="pico-footer--link"><a href="https://www.picobrew.com/PublicRecipes/PublicRecipes">Original Site</a></div>
+            <div class="pico-footer--link"><a href="https://github.com/Justin-Credible/picobrew-recipes">Contribute on GitHub</a></div>
+        </div>
     </div>
 
     <script src="/assets/js/ComponentJS.js"></script>
