@@ -28,9 +28,37 @@
 <body>
     <div id="main-internal-wrapper">
         <header id="header" class="noprint">
-            <nav id="pico-nav-app" navitems="[]" passedusername="">
+            <!-- Original navigation header (hidden) -->
+            <nav id="pico-nav-app" navitems="[]" passedusername="" style="display: none;">
                 <pico-nav :vm="vm" :promovm="promovm" :promoactive="promoactive" v-on:nav-link-event="handleNavLinkEvent"></pico-nav>
                 <div style="width:100%;" :style="padStyle"></div>
+            </nav>
+            <!-- Hardcoded navigation header -->
+            <nav>
+                <div class="pico-nav--wrap">
+                    <div id="pico-brew-navbar" class="pico-nav">
+                        <div class="pico-nav--contain">
+                            <div class="pico-nav--top-items">
+                                <div class="pico-nav--top-item">PicoBrew Public Recipe Library (Mirror)</div>
+                                <div class="pico-nav--top-item"><a href="https://github.com/Justin-Credible/picobrew-recipes/blob/master/README.md">About This Site</a></div>
+                                <div class="pico-nav--top-item"><a href="https://www.picobrew.com/PublicRecipes/PublicRecipes">Original Site</a></div>
+                            </div>
+                            <div class="pico-nav--right">
+                                <div class="pico-nav--icon-wrap relpos -cart"><img src="/assets/images/mainlayout/Nav/Icons/cart_.svg" class="pico-nav--icon"></div>
+                                <div class="pico-nav--top-item -login"><a href="https://github.com/Justin-Credible/picobrew-recipes">Contribute on GitHub</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="pico-sub-nav" class="pico-nav--sub">
+                        <div class="pico-nav--close"><img src="/assets/images/mainlayout/Nav/Icons/x_white.svg" class="pico-nav--close-icon"></div>
+                    </div>
+                    <div id="pico-sub-detail-nav" class="pico-nav--detail">
+                        <div class="pico-nav--close -back"><img src="/assets/images/mainlayout/Nav/Icons/back_white.svg" class="pico-nav--close-icon"></div>
+                        <div class="pico-nav--detail-item-wrap"></div>
+                    </div>
+                    <div id="pico-user-nav" class="pico-nav--user"></div>
+                </div>
+                <div style="width: 100%; height: 0px;"></div>
             </nav>
         </header>
         <div id="main-internal" role="main">
@@ -92,8 +120,20 @@
             </div>
         </div>    <!-- main-->
     </div>
-    <div id="pico-footer-app" class="noprint">
+
+    <!-- Original footer (hidden) -->
+    <div id="pico-footer-app" class="noprint" style="display: none;">
         <pico-footer :vm="vm" v-on:footer-click-event="handleFooterClick"></pico-footer>
+    </div>
+
+    <!-- Hardcoded footer -->
+    <div class="pico-footer">
+        <div class="pico-footer--links">
+            <div class="pico-footer--link">PicoBrew Public Recipe Library (Mirror)</div>
+            <div class="pico-footer--link"><a href="https://github.com/Justin-Credible/picobrew-recipes/blob/master/README.md">About This Site</a></div>
+            <div class="pico-footer--link"><a href="https://www.picobrew.com/PublicRecipes/PublicRecipes">Original Site</a></div>
+            <div class="pico-footer--link"><a href="https://github.com/Justin-Credible/picobrew-recipes">Contribute on GitHub</a></div>
+        </div>
     </div>
 
     <script src="/assets/js/ComponentJS.js"></script>
