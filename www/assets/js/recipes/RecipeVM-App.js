@@ -94,7 +94,7 @@ new Vue({
             const self = this;
             self.loaded = false;
             request_params.Set_Load(self.useMetric, self.recipe_guid);
-            self.post_api().then(function (response) {
+            self.get_api().then(function (response) {
                 self.vm = response.data.VM;
                 if (!self.vm.CanAccess) {
                     window.location.replace("/");
@@ -175,7 +175,27 @@ new Vue({
             });
         },
         // *** API ***
+        get_api: function(params) {
+            const self = this;
+            var _data = params ? params : self.params();
+            return new Promise(function (resolve, reject) {
+                axios({
+                    method: 'get',
+                    url: self.url,
+                    data: _data,
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                    .then(function (response) {
+                        resolve(response);
+                    })
+                    .catch(function () {
+                        reject();
+                    });
+            });
+        },
         post_api: function(params) {
+            alert("Not implemented!");
+            throw new Error("Not implemented!");
             const self = this;
             var _data = params ? params : self.params();
             return new Promise(function (resolve, reject) {
