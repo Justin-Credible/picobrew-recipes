@@ -24,8 +24,8 @@
 
     <!-- Hack so the sticky header doesn't overlay the top content -->
     <style>
-        .rv--h-c {
-            margin-top: 10rem;
+        .main-content {
+            margin-top: 5rem;
         }
     </style>
 
@@ -36,10 +36,10 @@
     <div id="main-internal-wrapper">
         <header id="header" class="noprint">
             <!-- Original navigation header (hidden) -->
-            <nav id="pico-nav-app" navitems="[]" passedusername="" style="display: none;">
+            <!-- <nav id="pico-nav-app" navitems="[]" passedusername="" style="display: none;">
                 <pico-nav :vm="vm" :promovm="promovm" :promoactive="promoactive" v-on:nav-link-event="handleNavLinkEvent"></pico-nav>
                 <div style="width:100%;" :style="padStyle"></div>
-            </nav>
+            </nav> -->
             <!-- Hardcoded navigation header -->
             <nav>
                 <div class="pico-nav--wrap">
@@ -96,11 +96,11 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12 text-center" v-if="!loaded">
+                    <div class="col-xs-12 text-center main-content" v-if="!loaded">
                         <br />
                         <h4><i class="fa fa-spinner fa-spin"></i> Loading Recipe...</h4>
                     </div>
-                    <div v-else>
+                    <div class="main-content" v-else>
                         <h1 style="color: #f94a4a; text-align: center" v-if="vm.AdminView">ADMIN VIEW - DO NOT MODIFY</h1>
                         <!-- Options -->
                         <div class="text-center" id="all"></div> <!-- Errors -->
@@ -121,10 +121,10 @@
                             <div class="l-button-div" v-if="vm.OwnedByUser && !IsPublic && false">
                                 <a href="#" data-toggle="modal" data-target="#deleterecipe">Delete</a>
                             </div>
-                            <div class="l-button-div">
+                            <div class="l-button-div" v-if="false">
                                 <a href='#' v-on:click="false ? printRecipe() : showLoginModal()">Print</a>
                             </div>
-                            <div class="l-button-div" v-if="(!vm.OwnedByUser && IsPublic && !(!vm.Recipe.Locked && false)) || !false">
+                            <div class="l-button-div" v-if="(!vm.OwnedByUser && IsPublic && !(!vm.Recipe.Locked && false)) && false">
                                 <a href='#' v-on:click="false ? copyRecipe() : showLoginModal()">Copy to My Brewhouse</a>
                             </div>
                             <div class="l-button-div" v-if="false">

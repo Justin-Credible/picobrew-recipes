@@ -32,6 +32,6 @@ It also contains HTML/CSS/JS that was from the official site, slightly modified 
 ```
 brew install http-server
 git clone git@github.com:Justin-Credible/picobrew-recipes.git
-cd picobrew-recipes
+cd picobrew-recipes/www
 http-server
 ```
