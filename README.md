@@ -21,11 +21,11 @@ This allows people to brew their own custom recipes without the need for the off
 
 As more people get into brewing custom recipes, I thought it would be helpful to have a mirror of the public recipe list in case it also disappears.
 
-This mirror contains only the recipes by the author "PicoBrew Inc." and none of the community submitted recipes.
+This mirror contains a toggle that lets the user view the community submitted recipes alongside the "official PicoBrew Inc." recipes, if they so choose.
 
 ## Development
 
-This contains the main recipe list and recipes in JSON format in the `www/data` directory.
+This contains the recipe lists and recipes in JSON format in the `www/data` directory.
 
 It also contains HTML/CSS/JS that was from the official site, slightly modified to work with a static file HTTP server.
 
