@@ -19,10 +19,65 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,400i,500,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed:600,700,900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
     <link href="/assets/css/ThirdPartyCSS.css" rel="stylesheet"/>
     <link href="/assets/css/ComponentCSS.css" rel="stylesheet"/>
 
     <script src="/assets/js/ThirdPartyJS.js"></script>
+
+    <script>
+        function getSelectedRecipeList() {
+            return location.search.indexOf("community=1") === -1
+                ? "official"
+                : "community";
+        }
+
+        function getRecipeListUrl() {
+            return getSelectedRecipeList() === "community"
+                ? "/data/recipe-list-community.json"
+                : "/data/recipe-list-official.json";
+        }
+
+        var retryUpdateRadioButtonStateCount = 10;
+
+        function updateRecipeListRadioButtonState() {
+
+            // The elements may not exist yet because they're wrapped by Vue directives.
+            // In this case, let's just retry a few times.
+            if ($("#recipe-set-official").length === 0 && retryUpdateRadioButtonStateCount > 0) {
+
+                retryUpdateRadioButtonStateCount--;
+
+                setTimeout(function () {
+                    updateRecipeListRadioButtonState();
+                }, 250);
+
+                return;
+            }
+
+            var recipeList = getSelectedRecipeList();
+
+            if (recipeList === "community") {
+                $("#recipe-set-official").addClass("fa-circle-o").removeClass("fa-check-circle");
+                $("#recipe-set-community").addClass("fa-check-circle").removeClass("fa-circle-o");
+            }
+            else {
+                $("#recipe-set-official").addClass("fa-check-circle").removeClass("fa-circle-o");
+                $("#recipe-set-community").addClass("fa-circle-o").removeClass("fa-check-circle");
+            }
+        }
+    </script>
+
+    <style>
+        .recipe-set-container {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .recipe-set-container i {
+            margin-left: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -70,11 +125,21 @@
                 <link href="/assets/css/PublicRecipesCSS.css" rel="stylesheet"/>
 
                 <div id="public-recipes-app" class="public-recipes"
-                    :rest-url="setRestUrl(&quot;/data/recipe-list.json&quot;)"
+                    :rest-url="setRestUrl(window.getRecipeListUrl())"
                     v-cloak>
                     <featured-recipes :vm="featuredvm"></featured-recipes>
                     <div v-if="loaded">
                         <h1 class="featured-recipes--title -library">Recipe Library</h1>
+                        <div class="recipe-set-container">
+                            <a href="/?community=0">
+                                <i id="recipe-set-official" class="fa fa-circle-o"></i>
+                                Official Only
+                            </a>
+                            <a href="/?community=1">
+                                <i id="recipe-set-community" class="fa fa-circle-o"></i>
+                                Official + Community
+                            </a>
+                        </div>
                         <div class="numRecipes">
                             <span style="display: inline-block"><span v-show="getFilteredRecipesLength != getPublicRecipesLength">{{getFilteredRecipesLength}} out of</span> {{getPublicRecipesLength}} Recipes</span>
                         </div>
@@ -115,7 +180,6 @@
                         </div>
                     </template>
                 </div>
-                <script src="/assets/js/PublicRecipesJS.js"></script>
 
             </div>
         </div>    <!-- main-->
@@ -137,6 +201,12 @@
     </div>
 
     <script src="/assets/js/ComponentJS.js"></script>
+    <script src="/assets/js/PublicRecipesJS.js"></script>
 
+    <script>
+        $(function() {
+            updateRecipeListRadioButtonState();
+        });
+    </script>
 </body>
 </html>
