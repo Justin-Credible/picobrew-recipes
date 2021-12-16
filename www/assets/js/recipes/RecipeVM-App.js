@@ -1,5 +1,15 @@
 /* Taken from: https://www.picobrew.com/Scripts/Recipes/RecipeVM-App.js */
 
+if (!String.prototype.encodeHTML) {
+    String.prototype.encodeHTML = function () {
+        return this.replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
+    };
+}
+
 google.charts.load('current', { packages: ['corechart'] });
 
 var request_params = {
@@ -258,23 +268,457 @@ new Vue({
         },
         exportRecipe: function() {
             const self = this;
-            axios({
-                method: 'post',
-                url: '/z_crafter/json/exportrecipejson',
-                data: $.param({
-                    recipe: JSON.stringify(self.vm.Recipe)
-                })
-            }).then(function (response) {
-                var blob = new Blob([response.data]);
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = self.vm.Recipe.Name + "_recipe_xml.xml";
-                link.click();
-            }, function (errMsg) {
-                alert(errMsg);
-            })
-
+            var blob = new Blob([self.beerXML(self.vm.Recipe)]);
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `${self.vm.Recipe.Name.replace(/[^a-zA-Z0-9\ \-\.]/g, '')}.xml`;
+            link.click();
+            
+            // const self = this;
+            // axios({
+            //     method: 'post',
+            //     url: '/z_crafter/json/exportrecipejson',
+            //     data: $.param({
+            //         recipe: JSON.stringify(self.vm.Recipe)
+            //     })
+            // }).then(function (response) {
+            //     var blob = new Blob([response.data]);
+            //     var link = document.createElement('a');
+            //     link.href = window.URL.createObjectURL(blob);
+            //     link.download = self.vm.Recipe.Name + "_recipe_xml.xml";
+            //     link.click();
+            // }, function (errMsg) {
+            //     alert(errMsg);
+            // })
         },
+        
+        locationName: function(location) {
+            switch (location) {
+                case 0:
+                    return 'PassThrough';
+                case 1:
+                    return 'Mash';
+                case 2:
+                    return 'Adjunct1';
+                case 3:
+                    return 'Adjunct2';
+                case 4:
+                    return 'Adjunct3';
+                case 5:
+                    return 'Adjunct4';
+                case 6:
+                    return 'Pause'; // 'Ferment'
+                default:
+                    return 'Mash';
+            }
+        },
+
+        hopUse: function(location) {
+            switch (location) {
+                case 1:
+                    return 'Mash'; // "First Wort"
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    return 'Boil'; // "Aroma" if at a lower temp?
+                default:
+                    return 'Dry Hop';
+            }
+        },
+
+        fermentableType: function(type) {
+            switch (type) {
+                case 'Grain':
+                case 'OtherGrain':
+                    return 'Grain';
+                case 'DryExtract':
+                    return 'Dry Extract';
+                case 'Sugar':
+                    return 'Sugar';
+                
+            }
+        },
+        
+        // utility function to convert fahrenheit to celcius 
+        fahrenheit_to_celcius: function(temp, decimals=2) {
+            let converted_temp;
+            converted_temp = (temp - 32) * 5 / 9;
+            return Number((converted_temp).toFixed(decimals));
+        },
+        
+        // utility function to convert gallons to liters 
+        gallons_to_liters: function(volume, scale = 1) {
+            let converted_volume;
+            converted_volume = volume * 3.78541 * scale;
+            return Number((converted_volume).toFixed(2));
+        },
+
+        tbsp_to_liters: function(volume) {
+            let converted_volume;
+            converted_volume = volume / 67.628;
+            return Number((converted_volume).toFixed(10));
+        },
+
+        tsp_to_liters: function(volume) {
+            let converted_volume;
+            converted_volume = volume / 203
+            ;
+            return Number((converted_volume).toFixed(10));
+        },
+        
+        // utility function to convert pounds to kilograms 
+        lb_to_kg: function(weight) {
+            let converted_weight;
+            converted_weight = weight / 2.205;
+            return Number((converted_weight).toFixed(6));
+        },
+
+        // utility function to convert ounces to kilogram 
+        oz_to_kg: function (weight) {
+            let converted_weight;
+            converted_weight = weight / 35.274;
+            return Number((converted_weight).toFixed(6));
+        },
+
+        // utility function to convert gram to kilogram
+        g_to_kg: function(weight) {
+            let converted_weight;
+            converted_weight = weight * 1000;
+            return Number((converted_weight).toFixed(3));
+        },
+
+        // utility function to convert various amounts from the units provided
+        units_to_kg_or_l: function(units="kg", amount) {
+            switch (units.toLowerCase()) {
+                case "tsp":
+                    return this.tsp_to_liters(amount); // convert to liters
+                case "tbsp":
+                    return this.tbsp_to_liters(amount); // convert to liters
+                case "g":
+                    return this.g_to_kg(amount); // convert to kg
+                case "lbs":
+                    return this.lb_to_kg(amount); // convert to kg
+                case "oz":
+                    return this.oz_to_kg(amount); // convert to kg
+                default:
+                    return amount;
+            }
+        },
+
+        amount_is_weight: function(units="kg") {
+            if (units == undefined) {
+                return true;
+            }
+            switch (units.toLowerCase()) {
+                case "kg":
+                case "g":
+                case "lbs":
+                case "oz":
+                    return true;
+                case "tbsp":
+                case "tsp":
+                    return false;
+            }
+        },
+        
+        beerXML: function(recipe) {
+            var machineSteps = '';
+            for (const el of recipe.MachineSteps) {
+                var step = `
+                <STEP>
+                    <NAME>${el.Name}</NAME>
+                    <TEMP>${this.fahrenheit_to_celcius(el.Temperature, 0)}</TEMP>
+                    <TIME>${el.Time}</TIME>
+                    <LOCATION>${this.locationName(el.StepLocation)}</LOCATION>
+                    <DRAIN>${el.Drain}</DRAIN>
+                </STEP>
+                `;
+                machineSteps = machineSteps.concat("\n", step)
+            }
+        
+            var picoExtention = `
+            <ZYMATIC>
+                <MASH_TIME>${recipe.MashTime}</MASH_TIME>
+                <MASH_TEMP>${this.fahrenheit_to_celcius(recipe.MashTemp, 0)}</MASH_TEMP>
+                <BOIL_TEMP>${this.fahrenheit_to_celcius(recipe.BoilTemp, 0)}</BOIL_TEMP>
+                <STEPS>${machineSteps}</STEPS>
+            </ZYMATIC>
+            `;
+        
+            var mashSteps = '';
+            for (const el of recipe.MashSteps) {
+                var step = `
+                    <MASH_STEP>
+                        <NAME>${el.Name}</NAME>
+                        <VERSION>1</VERSION>
+                        <TYPE>Temperature</TYPE>
+                        <STEP_TEMP>${this.fahrenheit_to_celcius(el.Temp, 0)}</STEP_TEMP>
+                        <STEP_TIME>${el.Time}</STEP_TIME>
+                    </MASH_STEP>
+                `;
+                mashSteps = mashSteps.concat("\n", step)
+            }
+            // 22.22222 = ambient room temp ~71 F
+            var mashProfile = `
+            <MASH>
+                <NAME>Custom</NAME>
+                <VERSION>1</VERSION>
+                <GRAIN_TEMP>22.22222</GRAIN_TEMP>
+                <MASH_STEPS>
+                    ${mashSteps}
+                </MASH_STEPS>
+            </MASH>
+            `;
+        
+            var hops = '';
+            for (const el of recipe.Hops) {
+                var hop = `
+                    <HOP>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name}</NAME>
+                        <ALPHA>${el.Alpha}</ALPHA>
+                        <AMOUNT>${this.oz_to_kg(el.Amount)}</AMOUNT>
+                        <USE>${this.hopUse(el.Location)}</USE>
+                        <TIME>${el.Time}</TIME>
+                        <PB_LOCATION>${el.Location}</PB_LOCATION>
+                    </HOP>
+                `;
+                hops = hops.concat("\n", hop)
+            }
+
+            for (const el of recipe.DryHops) {
+                var hop = `
+                    <HOP>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name}</NAME>
+                        <ALPHA>${el.Alpha}</ALPHA>
+                        <AMOUNT>${this.oz_to_kg(el.Amount)}</AMOUNT>
+                        <USE>Dry Hop</USE>
+                        <TIME>${el.Time}</TIME>
+                        <PB_LOCATION>${el.Location}</PB_LOCATION>
+                    </HOP>
+                `;
+                hops = hops.concat("\n", hop)
+            }
+
+            for (const el of recipe.WhirlpoolHops) {
+                var hop = `
+                    <HOP>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name}</NAME>
+                        <ALPHA>${el.Alpha}</ALPHA>
+                        <AMOUNT>${this.oz_to_kg(el.Amount)}</AMOUNT>
+                        <USE>Aroma</USE>
+                        <TIME>${el.Time}</TIME>
+                        <PB_LOCATION>${el.Location}</PB_LOCATION>
+                    </HOP>
+                `;
+                hops = hops.concat("\n", hop)
+            }
+
+            var adjuncts = '';
+            for (const el of recipe.Adjuncts) {
+                var adjunct = `
+                    <MISC>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name}</NAME>
+                        <TYPE>${el.AdjunctType}</TYPE>
+                        <AMOUNT>${this.oz_to_kg(el.Amount)}</AMOUNT>
+                        <USE>${el.Location && el.Time ? 'Boil' : 'Secondary'}</USE>
+                        <TIME>${el.Time}</TIME>
+                        <AMOUNT_IS_WEIGHT>true</AMOUNT_IS_WEIGHT>
+                        <PB_LOCATION>${el.Location}</PB_LOCATION>
+                    </MISC>
+                `;
+                adjuncts = adjuncts.concat("\n", adjunct)
+            }
+
+            // water chemistry
+            for (const el of recipe.Amendments) {
+                var adjunct = `
+                    <MISC>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name} (${el.Description})</NAME>
+                        <TYPE>Water Agent</TYPE>
+                        <AMOUNT>${this.oz_to_kg(el.Amount)}</AMOUNT>
+                        <USE>Boil</USE>
+                        <AMOUNT_IS_WEIGHT>true</AMOUNT_IS_WEIGHT>
+                        <NOTES>${el.Description}</NOTES>
+                        <PB_LOCATION>${el.Location}</PB_LOCATION>
+                    </MISC>
+                `;
+                adjuncts = adjuncts.concat("\n", adjunct)
+            }
+
+            // adjuncts in whirlpool
+            for (const el of recipe.WhirlpoolAdjuncts) {
+                var adjunct = `
+                    <MISC>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name}</NAME>
+                        <TYPE>${el.AdjunctType}</TYPE>
+                        <AMOUNT>${this.oz_to_kg(el.Amount)}</AMOUNT>
+                        <USE>Boil</USE>
+                        <AMOUNT_IS_WEIGHT>true</AMOUNT_IS_WEIGHT>
+                        <PB_LOCATION>${el.Location}</PB_LOCATION>
+                    </MISC>
+                `;
+                adjuncts = adjuncts.concat("\n", adjunct)
+            }
+
+            // dry adjuncts (most are fining with irish moss, late addition spice or yeast nutrient)
+            for (const el of recipe.DryAdjuncts) {
+                var adjunct = `
+                    <MISC>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name}</NAME>
+                        <TYPE>${el.AdjunctType}</TYPE>
+                        <AMOUNT>${el.Units ? this.units_to_kg_or_l(el.Units, el.Amount) : this.oz_to_kg(el.Amount)}</AMOUNT>
+                        <USE>Boil</USE>
+                        <AMOUNT_IS_WEIGHT>${this.amount_is_weight(el.Units)}</AMOUNT_IS_WEIGHT>
+                        <PB_LOCATION>${el.Location}</PB_LOCATION>
+                    </MISC>
+                `;
+                adjuncts = adjuncts.concat("\n", adjunct)
+            }
+            
+        
+            var fermentables = '';
+            for (const el of recipe.Fermentables) {
+                var fermentable = `
+                    <FERMENTABLE>
+                        <VERSION>1</VERSION>
+                        <NAME>${el.Name}</NAME>
+                        <AMOUNT>${this.lb_to_kg(el.Amount)}</AMOUNT>
+                        <TYPE>${this.fermentableType(el.FermentableType)}</TYPE>
+                        <YIELD>${el.Yield}</YIELD>
+                        <COLOR>${el.Color}</COLOR>
+                        <PB_LOCATION>${el.Location ? el.Location : 1}</PB_LOCATION>
+                    </FERMENTABLE>
+                `;
+                fermentables = fermentables.concat("\n", fermentable)
+            }
+        
+            var fermentionSteps = '';
+            var primaryAge = '', secondaryAge = '', tertiaryAge = '', age = '';
+            var primaryTemp = '', secondaryTemp = '', tertiaryTemp = '', temp = '';
+            for (const el of recipe.FermentationSteps) {
+                var ferm = `
+                <STEP>
+                    <NUMBER>${el.Step}</NUMBER>
+                    <NAME>${el.Name}</NAME>
+                    <TIME>${el.Days * 24 * 60}</TIME>
+                    <TEMP>${this.fahrenheit_to_celcius(el.Temp, 0)}</TEMP>
+                </STEP>
+                `;
+        
+                if (el.Step == 1) {
+                    primaryAge = `<PRIMARY_AGE>${el.Days}</PRIMARY_AGE>`
+                    primaryTemp = `<PRIMARY_TEMP>${this.fahrenheit_to_celcius(el.Temp, 0)}</PRIMARY_TEMP>`
+                }
+                if (el.Step == 2 && !el.Name.includes("Chill")) {
+                    secondaryAge = `<SECONDARY_AGE>${el.Days}</SECONDARY_AGE>`
+                    secondaryTemp = `<SECONDARY_TEMP>${this.fahrenheit_to_celcius(el.Temp, 0)}</SECONDARY_TEMP>`
+                }
+                if (el.Step == 3 && !el.Name.includes("Chill")) {
+                    tertiaryAge = `<TERTIARY_AGE>${el.Days}</TERTIARY_AGE>`
+                    tertiaryTemp = `<TERTIARY_TEMP>${this.fahrenheit_to_celcius(el.Temp, 0)}</TERTIARY_TEMP>`
+                }
+                fermentionSteps = fermentionSteps.concat("\n", ferm);
+            }
+        
+            const creationDate = new Date(recipe.CreationDate);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            var notes = recipe.Notes ? `<NOTES>${recipe.Notes.encodeHTML()}</NOTES>` : '';
+            var tastingNotes = recipe.TastingNotes ? `<TASTE_NOTES>${recipe.TastingNotes.encodeHTML()}</TASTE_NOTES>` : '';
+        
+            var beerXML = `
+                <?xml version="1.0" encoding="iso-8859-1"?>
+                <RECIPES>
+                    <RECIPE>
+                        <VERSION>1</VERSION>
+                        <TYPE>All Grain</TYPE>
+                        <NAME>${recipe.Name}</NAME>
+                        <BREWER>${recipe.Author}</BREWER>
+                        ${tastingNotes}
+                        <BATCH_SIZE>${this.gallons_to_liters(recipe.BatchSize)}</BATCH_SIZE>
+                        <DISPLAY_BATCH_SIZE>${this.gallons_to_liters(recipe.BatchSize)} L (${recipe.BatchSize} gal)</DISPLAY_BATCH_SIZE>
+                        <BOIL_SIZE>${this.gallons_to_liters(recipe.H2O, .964)}</BOIL_SIZE>
+                        <DISPLAY_BOIL_SIZE>${this.gallons_to_liters(recipe.H2O, .964)} L (${new Number(recipe.H2O * .964).toFixed(2)} gal)</DISPLAY_BOIL_SIZE>
+                        <BOIL_TIME>${recipe.BoilTime}</BOIL_TIME>
+                        <EFFICIENCY>${recipe.Efficiency}</EFFICIENCY>
+                        <DATE>${creationDate.toLocaleDateString(navigator.language, options).concat(" ", creationDate.toLocaleTimeString(navigator.language))}</DATE>
+                        <OG>${recipe.OG}</OG>
+                        <EST_OG>${recipe.OG}</EST_OG>
+                        <FG>${recipe.FG}</FG>
+                        <EST_FG>${recipe.FG}</EST_FG>
+                        <IBU>${recipe.IBU}</IBU>
+                        <COLOR>${recipe.SRM}</COLOR>
+                        <EST_COLOR>${recipe.SRM}</EST_COLOR>
+                        <ABV>${recipe.ABV}</ABV>
+                        <EST_ABV>${recipe.ABV}</EST_ABV>
+                        <STYLE>
+                            <VERSION>1</VERSION>
+                            <CATEGORY_NUMBER>${recipe.BeerStyle.CatNumCode}</CATEGORY_NUMBER>
+                            <STYLE_LETTER>${recipe.BeerStyle.CatLettCode}</STYLE_LETTER>
+                            <NAME>${recipe.BeerStyle.StyleNameCode}</NAME>
+                            <STYLE_GUIDE>${recipe.BeerStyle.StyleGuide}</STYLE_GUIDE>
+                            <OG_MIN>${recipe.BeerStyle.MinOG}</OG_MIN>
+                            <OG_MAX>${recipe.BeerStyle.MaxOG}</OG_MAX>
+                            <FG_MIN>${recipe.BeerStyle.MinFG}</FG_MIN>
+                            <FG_MAX>${recipe.BeerStyle.MaxFG}</FG_MAX>
+                            <IBU_MIN>${recipe.BeerStyle.MinIBU}</IBU_MIN>
+                            <IBU_MAX>${recipe.BeerStyle.MaxIBU}</IBU_MAX>
+                            <COLOR_MIN>${recipe.BeerStyle.MinSRM}</COLOR_MIN>
+                            <COLOR_MAX>${recipe.BeerStyle.MaxSRM}</COLOR_MAX>
+                        </STYLE>
+                        <EQUIPMENT>
+                            <NAME>PicoBrew Z/Zymatic</NAME>
+                            <VERSION>1</VERSION>
+                        </EQUIPMENT>
+                        ${notes}
+                        ${picoExtention}
+                        ${mashProfile}
+                        <WATERS>
+                            <WATER>
+                                <VERSION>1</VERSION>
+                                <AMOUNT>${this.gallons_to_liters(recipe.H2O)}</AMOUNT>
+                            </WATER>
+                        </WATERS>
+                        <FERMENTABLES>${fermentables}</FERMENTABLES>
+                        <HOPS>${hops}</HOPS>
+                        <MISCS>${adjuncts}</MISCS>
+                        <YEASTS>
+                            <YEAST>
+                                <VERSION>1</VERSION>
+                                <NAME>${recipe.Yeast.Name}</NAME>
+                                <LABORATORY>${recipe.Yeast.Laboratory}</LABORATORY>
+                                <AMOUNT>1</AMOUNT>
+                                <FORM>${recipe.Yeast.Laboratory == "White Labs" || recipe.Yeast.Laboratory == "Omega Yeast" || recipe.Yeast.Laboratory == "GigaYeast" ? "Liquid" : "Dry"}</FORM>
+                                <PRODUCT_ID>${recipe.Yeast.ProductID}</PRODUCT_ID>
+                                <MIN_TEMPERATURE>${this.fahrenheit_to_celcius(recipe.Yeast.MinTemp, 0)}</MIN_TEMPERATURE>
+                                <MAX_TEMPERATURE>${this.fahrenheit_to_celcius(recipe.Yeast.MaxTemp, 0)}</MAX_TEMPERATURE>
+                                <ATTENUATION>${recipe.Yeast.ExpectedAtten}</ATTENUATION>
+                            </YEAST>
+                        </YEASTS>
+                        <FERMENTATION_STAGES>${recipe.FermentationSteps.length}</FERMENTATION_STAGES>
+                        ${primaryAge}
+                        ${primaryTemp}
+                        ${secondaryAge}
+                        ${secondaryTemp}
+                        ${tertiaryAge}
+                        ${tertiaryTemp}
+                        <KEGSMART>
+                            <STEPS>${fermentionSteps}</STEPS>
+                        </KEGSMART>
+                    </RECIPE>
+                </RECIPES>
+            `;
+        
+            return beerXML;
+        },
+        
         copyRecipe: function () {
             const self = this;
             $('#all').empty();
@@ -390,7 +834,3 @@ new Vue({
 
     }
 });
-
-
-
-
