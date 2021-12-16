@@ -421,6 +421,19 @@ new Vue({
                     return false;
             }
         },
+
+        yeast_form: function(laboratory="Fermentis") {
+            switch (laboratory.toLowerCase()) {
+                case "white labs":
+                case "omega yeast":
+                case "gigayeast":
+                case "wyeast":
+                case "imperial":
+                    return "Liquid";
+                default:
+                    return "Dry";
+            }
+        },
         
         beerXML: function(recipe) {
             var machineSteps = '';
@@ -695,7 +708,7 @@ new Vue({
                                 <NAME>${recipe.Yeast.Name}</NAME>
                                 <LABORATORY>${recipe.Yeast.Laboratory}</LABORATORY>
                                 <AMOUNT>1</AMOUNT>
-                                <FORM>${recipe.Yeast.Laboratory == "White Labs" || recipe.Yeast.Laboratory == "Omega Yeast" || recipe.Yeast.Laboratory == "GigaYeast" ? "Liquid" : "Dry"}</FORM>
+                                <FORM>${this.yeast_form(recipe.Yeast.Laboratory)}</FORM>
                                 <PRODUCT_ID>${recipe.Yeast.ProductID}</PRODUCT_ID>
                                 <MIN_TEMPERATURE>${this.fahrenheit_to_celcius(recipe.Yeast.MinTemp, 0)}</MIN_TEMPERATURE>
                                 <MAX_TEMPERATURE>${this.fahrenheit_to_celcius(recipe.Yeast.MaxTemp, 0)}</MAX_TEMPERATURE>
