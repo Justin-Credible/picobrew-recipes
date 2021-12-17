@@ -455,8 +455,9 @@ new Vue({
                 <MASH_TIME>${recipe.MashTime}</MASH_TIME>
                 <MASH_TEMP>${this.fahrenheit_to_celcius(recipe.MashTemp, 0)}</MASH_TEMP>
                 <BOIL_TEMP>${this.fahrenheit_to_celcius(recipe.BoilTemp, 0)}</BOIL_TEMP>
-                <STEPS>${machineSteps}</STEPS>
+                ${machineSteps}
             </ZYMATIC>
+            <PB_STEPS>${machineSteps.replaceAll("STEP", "PB_STEP")}</PB_STEPS>
             `;
         
             var mashSteps = '';
@@ -605,7 +606,7 @@ new Vue({
                         <NAME>${el.Name}</NAME>
                         <AMOUNT>${this.lb_to_kg(el.Amount)}</AMOUNT>
                         <TYPE>${this.fermentableType(el.FermentableType)}</TYPE>
-                        <YIELD>${el.Yield}</YIELD>
+                        <YIELD>${new Number(el.Yield * 2.17391304).toFixed(4)}</YIELD>
                         <COLOR>${el.Color}</COLOR>
                         <PB_LOCATION>${el.Location ? el.Location : 1}</PB_LOCATION>
                     </FERMENTABLE>
@@ -671,6 +672,8 @@ new Vue({
                         <EST_COLOR>${recipe.SRM}</EST_COLOR>
                         <ABV>${recipe.ABV}</ABV>
                         <EST_ABV>${recipe.ABV}</EST_ABV>
+                        <PB_RECIPETYPE>1</PB_RECIPETYPE>
+                        <PB_MASHTYPE>${recipe.MashType}</PB_MASHTYPE>
                         <STYLE>
                             <VERSION>1</VERSION>
                             <CATEGORY_NUMBER>${recipe.BeerStyle.CatNumCode}</CATEGORY_NUMBER>
@@ -707,12 +710,15 @@ new Vue({
                                 <VERSION>1</VERSION>
                                 <NAME>${recipe.Yeast.Name}</NAME>
                                 <LABORATORY>${recipe.Yeast.Laboratory}</LABORATORY>
-                                <AMOUNT>1</AMOUNT>
+                                <AMOUNT>${this.lb_to_kg(1)}</AMOUNT>
                                 <FORM>${this.yeast_form(recipe.Yeast.Laboratory)}</FORM>
                                 <PRODUCT_ID>${recipe.Yeast.ProductID}</PRODUCT_ID>
                                 <MIN_TEMPERATURE>${this.fahrenheit_to_celcius(recipe.Yeast.MinTemp, 0)}</MIN_TEMPERATURE>
                                 <MAX_TEMPERATURE>${this.fahrenheit_to_celcius(recipe.Yeast.MaxTemp, 0)}</MAX_TEMPERATURE>
                                 <ATTENUATION>${recipe.Yeast.ExpectedAtten}</ATTENUATION>
+                                <MIN_ATTENUATION>${recipe.Yeast.MinAtten ? recipe.Yeast.MinAtten : -1}</MIN_ATTENUATION>
+                                <MAX_ATTENUATION>${recipe.Yeast.MaxAtten ? recipe.Yeast.MaxAtten : -1}</MAX_ATTENUATION>
+                                <PB_LOCATION>6</PB_LOCATION>
                             </YEAST>
                         </YEASTS>
                         <FERMENTATION_STAGES>${recipe.FermentationSteps.length}</FERMENTATION_STAGES>
