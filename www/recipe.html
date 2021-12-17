@@ -123,8 +123,8 @@
                             <div class="l-button-div" v-if="vm.OwnedByUser && !IsPublic && false">
                                 <a href="#" data-toggle="modal" data-target="#deleterecipe">Delete</a>
                             </div>
-                            <div class="l-button-div" v-if="false">
-                                <a href='#' v-on:click="false ? printRecipe() : showLoginModal()">Print</a>
+                            <div class="l-button-div">
+                                <a href='#' v-on:click="printRecipe()">Print</a>
                             </div>
                             <div class="l-button-div" v-if="(!vm.OwnedByUser && IsPublic && !(!vm.Recipe.Locked && false)) && false">
                                 <a href='#' v-on:click="false ? copyRecipe() : showLoginModal()">Copy to My Brewhouse</a>
@@ -499,7 +499,7 @@
 
     <!-- Hardcoded footer -->
     <div class="pico-footer">
-        <div class="pico-footer--links">
+        <div class="pico-footer--links l-button-container">
             <div class="pico-footer--link"><a href="/">PicoBrew Public Recipe Library</a></div>
             <div class="pico-footer--link"><a href="https://github.com/Justin-Credible/picobrew-recipes/blob/master/README.md">About This Site</a></div>
             <div class="pico-footer--link"><a href="https://www.picobrew.com/PublicRecipes/PublicRecipes">Original Site</a></div>
