@@ -457,7 +457,6 @@ new Vue({
                 <BOIL_TEMP>${this.fahrenheit_to_celcius(recipe.BoilTemp, 0)}</BOIL_TEMP>
                 ${machineSteps}
             </ZYMATIC>
-            <PB_STEPS>${machineSteps.replaceAll("STEP", "PB_STEP")}</PB_STEPS>
             `;
         
             var mashSteps = '';
