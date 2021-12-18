@@ -239,3 +239,4 @@ function getZIngredientChart(ingredients, type) {
         }
     }
 };
+
