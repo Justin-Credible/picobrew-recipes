@@ -112,7 +112,10 @@
                                 <a v-bind:href="'/members/recipes/editctlprogram?id=' + vm.Recipe.GUID + '&isZcrafter=true'">Advanced</a>
                             </div>
                             <div class="l-button-div">
-                                <a href="#" v-on:click="exportRecipe()">Export</a>
+                                <a href="#" v-on:click="exportRecipe()">
+                                    <i class="fa fa-download"></i>
+                                    Export
+                                </a>
                             </div>
                             <div class="l-button-div" v-if="!vm.Recipe.Locked && false">
                                 <a href="#" v-on:click="edit()">Edit</a>
@@ -124,7 +127,10 @@
                                 <a href="#" data-toggle="modal" data-target="#deleterecipe">Delete</a>
                             </div>
                             <div class="l-button-div">
-                                <a href='#' v-on:click="printRecipe()">Print</a>
+                                <a href='#' v-on:click="printRecipe()">
+                                    <i class="fa fa-print"></i>
+                                    Print
+                                </a>
                             </div>
                             <div class="l-button-div" v-if="(!vm.OwnedByUser && IsPublic && !(!vm.Recipe.Locked && false)) && false">
                                 <a href='#' v-on:click="false ? copyRecipe() : showLoginModal()">Copy to My Brewhouse</a>

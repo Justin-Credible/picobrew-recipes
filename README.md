@@ -23,6 +23,8 @@ As more people get into brewing custom recipes, I thought it would be helpful to
 
 This mirror contains a toggle that lets the user view the community submitted recipes alongside the "official PicoBrew Inc." recipes, if they so choose.
 
+Recipes can be exported in the [BeerXML format](http://www.beerxml.com/beerxml.htm) by clicking the Export link at the top of each recipe. The recipes can then be used in other software, such as [Recipe Crafter 2](https://crafter.pilotbatchbrewing.com).
+
 ## Development
 
 This contains the recipe lists and recipes in JSON format in the `www/data` directory.

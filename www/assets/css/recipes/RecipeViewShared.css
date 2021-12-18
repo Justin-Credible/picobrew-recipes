@@ -186,6 +186,10 @@ font-family: Montserrat !important;
     margin-bottom: 10px;
 }
 
+.l-button-container .l-button-div {
+    font-size: 16px;
+}
+
 .l-i-container,
 .zc--fc {
     display: flex;
