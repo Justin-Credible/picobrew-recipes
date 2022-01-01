@@ -5,9 +5,8 @@
 
     var element = document.getElementById("recipe-vm-app");
 
-    var queryString = document.location.search;
-
-    var id = queryString.split("=")[1];
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
 
     element.setAttribute("recipeguid", id);
     element.setAttribute("api", "/data/recipes/" + id + ".json");
