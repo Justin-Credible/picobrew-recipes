@@ -9,6 +9,6 @@
     const id = params.get("id");
 
     element.setAttribute("recipeguid", id);
-    element.setAttribute("api", "/data/recipes/" + id + ".json");
+    element.setAttribute("api", "./data/recipes/" + id + ".json");
 
 })();
