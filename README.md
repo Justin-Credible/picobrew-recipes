@@ -27,13 +27,13 @@ Recipes can be exported in the [BeerXML format](http://www.beerxml.com/beerxml.h
 
 ## Development
 
-This contains the recipe lists and recipes in JSON format in the `www/data` directory.
+This contains the recipe lists and recipes in JSON format in the `data` directory.
 
 It also contains HTML/CSS/JS that was from the official site, slightly modified to work with a static file HTTP server.
 
 ```
 brew install http-server
 git clone git@github.com:Justin-Credible/picobrew-recipes.git
-cd picobrew-recipes/www
+cd picobrew-recipes
 http-server
 ```
