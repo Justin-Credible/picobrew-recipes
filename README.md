@@ -6,7 +6,7 @@ https://www.picobrew.com/PublicRecipes/PublicRecipes
 
 which is available here:
 
-https://pbrecipes.beer/
+https://justin-credible.github.io/picobrew-recipes/
 
 
 ## Why?
